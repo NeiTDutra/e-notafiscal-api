@@ -12,8 +12,8 @@ router.get('/rps/:id', rpsController.rpsListOne);
 
 router.post('/rps/create', rpsController.rpsCreate);
 
-router.put('/rps/:id', rpsController.rpsUpdate);
+router.put('/rps/update/:id', rpsController.rpsUpdate);
 
-router.delete('/rps/:id', rpsController.rpsDelete);
+router.delete('/rps/delete/:id', rpsController.rpsDelete);
 
 module.exports = router;

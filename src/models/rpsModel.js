@@ -51,12 +51,6 @@ const RPSServicoSchema = new Schema (
     }
 );
 
-const RPSAtividadeSchema = new Schema (
-    {
-        list: { type: Array }
-    }
-);
-
 const RPSFiscoSchema = new Schema (
     {
         pis: { type: String },
@@ -74,11 +68,11 @@ const RPSSchema = new Schema (
         dataHora: { type: Date },
         numero: { type: Number },
         serie: { type: Number },
-        prestador: [RPSPrestadorSchema],
-        tomador: [RPSTomadorSchema],
-        cod_atividade: [RPSAtividadeSchema],
-        discriminacao: [RPSServicoSchema],
-        fisco: [RPSFiscoSchema],
+        prestador: {RPSPrestadorSchema},
+        tomador: {RPSTomadorSchema},
+        cod_atividade: { type: String },
+        discriminacao: {RPSServicoSchema},
+        fisco: {RPSFiscoSchema},
         valor: { type: String },
         issRetido: { type: Boolean }
 
@@ -89,9 +83,32 @@ RPSSchema.virtual('url').get(function () {
     return '/rps/'+this._id;
 });
 
-module.exports = mongoose.model('RPS', RPSSchema);
-module.exports = mongoose.model('Prestador', RPSPrestadorSchema);
-module.exports = mongoose.model('Tomador', RPSTomadorSchema);
-module.exports = mongoose.model('Atividade', RPSAtividadeSchema);
-module.exports = mongoose.model('Servico', RPSServicoSchema);
-module.exports = mongoose.model('Fisco', RPSFiscoSchema);
+RPSPrestadorSchema.virtual('url').get(() => {
+    return '/prestador/'+this._id;
+});
+
+RPSTomadorSchema.virtual('url').get(() => {
+    return '/tomador/'+this._id;
+});
+
+RPSServicoSchema.virtual('url').get(() => {
+    return '/servico/'+this._id;
+});
+
+RPSFiscoSchema.virtual('url').get(() => {
+    return '/fisco/'+this._id;
+});
+
+const Rps = mongoose.model('RPS', RPSSchema);
+const PrestadorRps = mongoose.model('Prestador', RPSPrestadorSchema);
+const TomadorRps = mongoose.model('Tomador', RPSTomadorSchema);
+const ServicoRps = mongoose.model('Servico', RPSServicoSchema);
+const FiscoRps = mongoose.model('Fisco', RPSFiscoSchema);
+
+module.exports = [
+    Rps,
+    PrestadorRps,
+    TomadorRps,
+    ServicoRps,
+    FiscoRps
+];

@@ -9,7 +9,7 @@ const connectDB = require('./config/dbConnection');
 
 const app = express();
 
-app.set('conn', 'connectDB');
+app.set('conn', connectDB);
 
 app.use(expressSession({
     secret: process.env.EXPRESS_SECRET || 'z3|d4',
@@ -36,7 +36,7 @@ app.use(function(err, req, res, next) {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
   
     // send the error
-    res.status(err.status || 500).send('Error: ', { error: err.message, stack: err.stack });
+    res.status(err.status || 500).send({ error: err.message, stack: err.stack });
 });
 
 module.exports = app;
