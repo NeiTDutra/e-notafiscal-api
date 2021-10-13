@@ -2,21 +2,25 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const RPSEndereco = new Schema (
+    {
+        cep: { type: String },
+        logradouro: { type: String },
+        numero: { type: String },
+        complemento: { type: String },
+        bairro: { type: String },
+        cidade: { type: String },
+        uf: { type: String }
+    }
+);
+
 const RPSPrestadorSchema = new Schema (
     {
         cpf: { type: String },
         cnpj: { type: String },
         inscr_municipal: { type: String },
         nome_razao: { type: String },
-        endereco: { 
-            cep: { type: String },
-            logradouro: { type: String },
-            numero: { type: String },
-            complemento: { type: String },
-            bairro: { type: String },
-            cidade: { type: String },
-            uf: { type: String }
-        },
+        endereco: [RPSEndereco],
         fone: { type: String },
         email: { type: String }
     }
@@ -28,15 +32,7 @@ const RPSTomadorSchema = new Schema (
         cnpj: { type: String },
         inscr_municipal: { type: String },
         nome_razao: { type: String },
-        endereco: { 
-            cep: { type: String },
-            logradouro: { type: String },
-            numero: { type: String },
-            complemento: { type: String },
-            bairro: { type: String },
-            cidade: { type: String },
-            uf: { type: String }
-        },
+        endereco: {RPSEndereco},
         fone: { type: String },
         email: { type: String }
     }
@@ -59,7 +55,8 @@ const RPSFiscoSchema = new Schema (
         inss: { type: String },
         irrf: { type: String },
         outras: { type: String },
-        iss: { type: String }
+        iss: { type: String },
+        desconto: { type: String }
     }
 );
 
@@ -74,7 +71,9 @@ const RPSSchema = new Schema (
         discriminacao: {RPSServicoSchema},
         fisco: {RPSFiscoSchema},
         valor: { type: String },
-        issRetido: { type: Boolean }
+        valorNota: { type: String },
+        issRetido: { type: Boolean },
+        outras: { type: String }
 
     }
 );
@@ -104,11 +103,13 @@ const PrestadorRps = mongoose.model('Prestador', RPSPrestadorSchema);
 const TomadorRps = mongoose.model('Tomador', RPSTomadorSchema);
 const ServicoRps = mongoose.model('Servico', RPSServicoSchema);
 const FiscoRps = mongoose.model('Fisco', RPSFiscoSchema);
+const Endereco = mongoose.model('Endereco', RPSEndereco);
 
 module.exports = [
     Rps,
     PrestadorRps,
     TomadorRps,
     ServicoRps,
-    FiscoRps
+    FiscoRps,
+    Endereco
 ];
