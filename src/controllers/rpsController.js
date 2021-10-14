@@ -1,11 +1,4 @@
-const [
-    RPS,
-    PrestadorRps,
-    TomadorRps,
-    ServicoRps,
-    FiscoRps,
-    Endereco
-    ] = require('../models/rpsModel');
+const [RPS] = require('../models/rpsModel');
 const home = '<h2>Welcome at the home page from RPS API</h2>\
             <p>consultar tudo: <a href="http://localhost:7575/enotafiscal/api/v1/rps">\
             http://localhost:7575/enotafiscal/api/v1/rps\
@@ -28,7 +21,7 @@ exports.rpsListAll = (req, res, next) => {
         if(err) { return next(err); }
 
         console.log('LIST ALL:', list_rps);
-        res.status(200).send({ 
+        res.status(200).json({ 
                 message: undefined===list_rps ? 'list undefined' : list_rps 
             });
     });
@@ -49,74 +42,69 @@ exports.rpsListOne = (req, res, next) => {
 exports.rpsCreate = (req, res, next) => {
 
     console.log('REQ: \n', req.body);
-    let endereco = new Endereco(
-         
-        { 
-            cep: req.body['end-cep-prestador'],
-            logradouro: req.body['end-logradouro-prestador'],
-            numero: req.body['end-numero-prestador'],
-            complemento: req.body['end-complemento-prestador'],
-            bairro: req.body['end-bairro-prestador'],
-            cidade: req.body['end-cidade-prestador'],
-            uf: req.body['end-uf-prestador'],
-        }
-    );
-    let prestador = new PrestadorRps(
-
-        {
-            cpf: req.body['cpf-prestador'],
-            cnpj: req.body['cnpj-prestador'],
-            inscr_municipal: req.body['inscr-municipal-prestador'],
-            nome_razao: req.body['nome-razao-prestador'],
-            endereco: endereco,
-            fone: req.body['fone-prestador'],
-            email: req.body['email-prestador']
-        }
-    );
-    let tomador = new TomadorRps(
-
-        {
-            cpf: req.body['cpf-tomador'],
-            cnpj: req.body['cnpj-tomador'],
-            inscr_municipal: req.body['inscr-municipal-tomador'],
-            nome_razao: req.body['nome-razao-tomador'],
-            endereco:endereco,
-            fone: req.body['fone-tomador'],
-            email: req.body['email-tomador']
-        }
-    );
-    let discr = new ServicoRps(
-
-        {
-            quantidade: req.body['discr-quantidade'],
-            descricao: req.body['discr-descricao'],
-            valorUnitario: req.body['discr-valor-unitario'],
-            valorTotal: req.body['discr-valor-total']
-        }
-    );
-    let fisco = new FiscoRps(
-
-        {
-            pis: req.body['fisco-pis'],
-            cofins: req.body['fisco-cofins'],
-            csll: req.body['fisco-csll'],
-            inss: req.body['fisco-inss'],
-            irrf: req.body['fisco-irrf'],
-            outras: req.body['fisco-outras'],
-            iss: req.body.aliquotaiss['iss'],
-            desconto: req.body['fisco-desconto']
-        }
-    );
+    
     let rps = new RPS(
         {
             dataHora: req.body.datahora,
             numero: req.body.numero,
             serie: req.body.serie,
-            prestador: prestador,
-            tomador: tomador,
+            prestador: [
+            {
+                cpf: req.body['cpf-prestador'],
+                cnpj: req.body['cnpj-prestador'],
+                inscr_municipal: req.body['inscr-municipal-prestador'],
+                nome_razao: req.body['nome-razao-prestador'],
+                endereco: [
+                {
+                    cep: req.body['end-cep-prestador'],
+                    logradouro: req.body['end-logradouro-prestador'],
+                    numero: req.body['end-numero-prestador'],
+                    complemento: req.body['end-complemento-prestador'],
+                    bairro: req.body['end-bairro-prestador'],
+                    cidade: req.body['end-cidade-prestador'],
+                    uf: req.body['end-uf-prestador']
+                }],
+                fone: req.body['fone-prestador'],
+                email: req.body['email-prestador']
+            }],
+            tomador: [
+            {
+                cpf: req.body['cpf-tomador'],
+                cnpj: req.body['cnpj-tomador'],
+                inscr_municipal: req.body['inscr-municipal-tomador'],
+                nome_razao: req.body['nome-razao-tomador'],
+                endereco:[
+                {
+                    cep: req.body['end-cep-prestador'],
+                    logradouro: req.body['end-logradouro-prestador'],
+                    numero: req.body['end-numero-prestador'],
+                    complemento: req.body['end-complemento-prestador'],
+                    bairro: req.body['end-bairro-prestador'],
+                    cidade: req.body['end-cidade-prestador'],
+                    uf: req.body['end-uf-prestador']
+                }],
+                fone: req.body['fone-tomador'],
+                email: req.body['email-tomador']
+            }],
             cod_atividade: req.body['cod-atividade'],
-            discriminacao: discr,
-            fisco: fisco,
+            discriminacao: [
+            {
+                quantidade: req.body['discr-quantidade'],
+                descricao: req.body['discr-descricao'],
+                valorUnitario: req.body['discr-valor-unitario'],
+                valorTotal: req.body['discr-valor-total']
+            }],
+            fisco: [
+            {
+                pis: req.body['fisco-pis'],
+                cofins: req.body['fisco-cofins'],
+                csll: req.body['fisco-csll'],
+                inss: req.body['fisco-inss'],
+                irrf: req.body['fisco-irrf'],
+                outras: req.body['fisco-outras'],
+                iss: req.body.aliquotaiss['iss'],
+                desconto: req.body['fisco-desconto']
+            }],
             valor: req.body['valor-rps'],
             valorNota: req.body['valor-nota-rps'],
             issRetido: req.body['iss-retido'],
@@ -128,9 +116,8 @@ exports.rpsCreate = (req, res, next) => {
 
         if(err) { return next(err); }
 
-        // const mess = json();
         console.log('MESS: \n', rps);
-        res.json(urlResponse, { message: rps });
+        res.json(urlResponse, { rps });
     });
 };
 
