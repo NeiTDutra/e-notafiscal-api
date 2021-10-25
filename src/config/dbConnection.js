@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoDB = 'mongodb://localhost:27017/nservicos';
+const mongoDB = process.env.MONGODB_RPS || 'mongodb://localhost:27017/nservicos';
 
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })

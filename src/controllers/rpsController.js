@@ -1,4 +1,4 @@
-const [RPS] = require('../models/rpsModel');
+const RPS = require('../models/rpsModel');
 const home = '<h2>Welcome at the home page from RPS API</h2>\
             <p>consultar tudo: <a href="http://localhost:7575/enotafiscal/api/v1/rps">\
             http://localhost:7575/enotafiscal/api/v1/rps\
@@ -112,7 +112,9 @@ exports.rpsCreate = (req, res, next) => {
 
         if(err) { return next(err); }
 
-        res.status(201).json(urlCreated, { rps });
+        res.status(201).json({ 
+            message: undefined===rps ? 'Message undefined' : rps
+        });
     });
 };
 
@@ -191,7 +193,9 @@ exports.rpsUpdate = (req, res, next) => {
     
             if(err) { return next(err); }
     
-            res.status(201).json(urlCreated, { rps });
+            res.status(201).json({ 
+                message: undefined===rps ? 'Update undefined' : rps
+            });
         });
     };
 

@@ -77,8 +77,4 @@ RPSSchema.virtual('url').get(function () {
     return '/rps/'+this._id;
 });
 
-const Rps = mongoose.model('RPS', RPSSchema);
-
-module.exports = [
-    Rps
-];
+module.exports = mongoose.model('RPS', RPSSchema);
