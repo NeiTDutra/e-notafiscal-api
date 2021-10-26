@@ -6,7 +6,6 @@ const home = '<h2>Welcome at the home page from RPS API</h2>\
             <p>consultar uma: <a href="http://localhost:7575/enotafiscal/api/v1/rps/6165545caadd4e2bbadbe6f2">\
             http://localhost:7575/enotafiscal/api/v1/rps/id</a>\
             </p>';
-const urlCreated = 'http://localhost:7070/rpss/rps/created';
 
 
 exports.index = (req, res, next) => {
@@ -72,13 +71,13 @@ exports.rpsCreate = (req, res, next) => {
                 nome_razao: req.body['nome-razao-tomador'],
                 endereco:[
                 {
-                    cep: req.body['end-cep-prestador'],
-                    logradouro: req.body['end-logradouro-prestador'],
-                    numero: req.body['end-numero-prestador'],
-                    complemento: req.body['end-complemento-prestador'],
-                    bairro: req.body['end-bairro-prestador'],
-                    cidade: req.body['end-cidade-prestador'],
-                    uf: req.body['end-uf-prestador']
+                    cep: req.body['end-cep-tomador'],
+                    logradouro: req.body['end-logradouro-tomador'],
+                    numero: req.body['end-numero-tomador'],
+                    complemento: req.body['end-complemento-tomador'],
+                    bairro: req.body['end-bairro-tomador'],
+                    cidade: req.body['end-cidade-tomador'],
+                    uf: req.body['end-uf-tomador']
                 }],
                 fone: req.body['fone-tomador'],
                 email: req.body['email-tomador']
@@ -113,13 +112,12 @@ exports.rpsCreate = (req, res, next) => {
         if(err) { return next(err); }
 
         res.status(201).json({ 
-            message: undefined===rps ? 'Message undefined' : rps
+            message: undefined===rps ? 'Create undefined data' : rps
         });
     });
 };
 
 exports.rpsUpdate = (req, res, next) => {
-    console.log(req.body);
 
     let rps = 
         {
@@ -153,13 +151,13 @@ exports.rpsUpdate = (req, res, next) => {
                 nome_razao: req.body['nome-razao-tomador'],
                 endereco:[
                 {
-                    cep: req.body['end-cep-prestador'],
-                    logradouro: req.body['end-logradouro-prestador'],
-                    numero: req.body['end-numero-prestador'],
-                    complemento: req.body['end-complemento-prestador'],
-                    bairro: req.body['end-bairro-prestador'],
-                    cidade: req.body['end-cidade-prestador'],
-                    uf: req.body['end-uf-prestador']
+                    cep: req.body['end-cep-tomador'],
+                    logradouro: req.body['end-logradouro-tomador'],
+                    numero: req.body['end-numero-tomador'],
+                    complemento: req.body['end-complemento-tomador'],
+                    bairro: req.body['end-bairro-tomador'],
+                    cidade: req.body['end-cidade-tomador'],
+                    uf: req.body['end-uf-tomador']
                 }],
                 fone: req.body['fone-tomador'],
                 email: req.body['email-tomador']
@@ -189,12 +187,12 @@ exports.rpsUpdate = (req, res, next) => {
             outras: req.body.outras
         };
 
-        RPS.findByIdAndUpdate(req.params.id, rps, {}, function (err, rps) {
+        RPS.findByIdAndUpdate(req.body.id, rps, {}, function (err, rps) {
     
             if(err) { return next(err); }
-    
+
             res.status(201).json({ 
-                message: undefined===rps ? 'Update undefined' : rps
+                message: undefined===rps ? 'Update undefined data' : rps
             });
         });
     };
