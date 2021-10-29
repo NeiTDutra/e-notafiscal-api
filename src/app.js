@@ -1,3 +1,10 @@
+/*
+/ file: ./src/app.js
+/ contents: this is the main system file, it contains all execution settings
+/ author: Nei Thomassin Dutra <nei.thomass@gmail.com>
+/ date: 2021-10-29
+*/
+
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -6,6 +13,7 @@ const expressSession = require('express-session');
 const express = require('express');
 const rpsRouter = require('./routes/rpsRoute');
 const connectDB = require('./config/dbConnection');
+
 
 const app = express();
 

@@ -1,3 +1,11 @@
+/*
+/ file: ./src/routes/rpsRoute.js
+/ contents: route manager, this file configures the application routes, 
+/ used by the express library
+/ author: Nei Thomassin Dutra <nei.thomass@gmail.com>
+/ date: 2021-10-29
+*/
+
 const express = require('express');
 
 const rpsController = require('../controllers/rpsController');

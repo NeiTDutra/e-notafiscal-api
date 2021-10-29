@@ -1,3 +1,10 @@
+/*
+/ file: ./src/controllers/rpsController.js
+/ contents: model class file representing information object created by the mongoose library
+/ author: Nei Thomassin Dutra <nei.thomass@gmail.com>
+/ date: 2021-10-29
+*/
+
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;

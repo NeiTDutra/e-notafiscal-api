@@ -1,3 +1,10 @@
+/*
+/ file: ./src/controllers/rpsController.js
+/ contents: file that implements the requests, responses and queries to the database
+/ author: Nei Thomassin Dutra <nei.thomass@gmail.com>
+/ date: 2021-10-29
+*/
+
 const RPS = require('../models/rpsModel');
 const home = '<h2>Welcome at the home page from RPS API</h2>\
             <p>consultar tudo: <a href="http://localhost:7575/enotafiscal/api/v1/rps">\
@@ -199,10 +206,13 @@ exports.rpsUpdate = (req, res, next) => {
 
 exports.rpsDelete = (req, res, next) => {
 
-    RPS.findByIdAndRemove(req.params.id, function (err) {
+    const deleteId = req.params.id;
+    RPS.findByIdAndRemove(deleteId, function (err) {
 
         if (err) { return next(err); }
         
-        res.redirect(urlCreated, { rps });
+        res.status(201).json({
+            message: deleteId+' deleted!'
+        });
     });
 };
