@@ -118,6 +118,7 @@ exports.rpsCreate = (req, res, next) => {
 
         if(err) { return next(err); }
 
+        console.log(rps);
         res.status(201).json({ 
             message: undefined===rps ? 'Create undefined data' : rps
         });
